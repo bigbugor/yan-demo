@@ -3,6 +3,8 @@ package com.yan.common.user.mapper;
 import com.yan.common.user.model.SysUser;
 import com.yan.common.user.model.SysUserExample;
 import com.yan.common.user.model.SysUserKey;
+
+import java.util.HashMap;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -94,4 +96,8 @@ public interface SysUserMapper {
      * @mbg.generated Thu Sep 14 18:04:32 CST 2017
      */
     int updateByPrimaryKey(SysUser record);
+    
+    List<HashMap<String,Object>> queryUserList( HashMap params);
+    
+    Integer queryUserCount(HashMap params);
 }

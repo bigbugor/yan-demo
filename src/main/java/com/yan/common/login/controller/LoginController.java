@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,7 +52,9 @@ public class LoginController extends BaseController {
 		
 		Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("userCode", username);
-        paramMap.put("userPassword", password);
+        String passwd = new  SimpleHash("SHA-1",username,password).toString();
+        paramMap.put("userPassword",  passwd);
+       // paramMap.put("userPassword", password);
         
         LoginUser loginUser = delegateMapper.selectOne("com.yan.common.login.mapper.LoginCustomMapper.getLoginUser", paramMap);
         

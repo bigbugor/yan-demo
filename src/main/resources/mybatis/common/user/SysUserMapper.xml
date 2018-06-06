@@ -395,4 +395,45 @@
     where USER_ID = #{userId,jdbcType=VARCHAR}
       and USER_CODE = #{userCode,jdbcType=VARCHAR}
   </update>
+  
+  
+  
+   <select id="queryUserList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	    select
+	    <if test="distinct">
+	      distinct
+	    </if>
+	   USER_ID as userId,
+	   USER_CODE as userCode, 
+	   USER_NAME as userName,
+	   USER_PASSWORD as userPassword,
+	   USER_ADDRESS as userAddress, 
+	   USER_EMAIL as userEmil,
+	   USER_PHONE as userPhone, 
+	   USER_BIRTHDAY as userBirthDay, 
+	   USER_JOINDATE as userJoinDate, 
+	   USER_PHOTO  as userPhoto,
+	   USER_TYPE as userType, 
+	   USER_VALID as userValid,
+	   companyInfoId as companyInfoId
+		 FROM (SELECT ROW_NUMBER()
+		 OVER(ORDER BY USER_ID ASC) AS rowid,* FROM
+			     SYS_USER
+			     where 1=1
+			      <if test="companyInfoId != null">
+			        companyInfoId = #{companyInfoId,jdbcType=BIT}
+			      </if>
+		)t WHERE t.rowid &gt;  ${offset} AND t.rowid  &lt;= ${limit}
+	  </select>
+	  
+	  <select id="queryUserCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+	    select
+	    count(1)
+	    from SYS_USER
+	   where 1=1
+			      <if test="companyInfoId != null">
+			        companyInfoId = #{companyInfoId,jdbcType=BIT}
+			      </if>
+	  </select>
+	  
 </mapper>

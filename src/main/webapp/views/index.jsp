@@ -241,15 +241,7 @@
 		</div>
 		<div class="content_main">
 			<div id="iframe_home" class="iframe cur">
-				<p><h4>Yan Demo</h4></p>
-				<p><b>本项目是一个整合 SpringMVC+Spring+MyBatis（SSM）框架的Demo</b></p>
-				<p><b>拥有高效率便捷开发模式，使开发人员更专注于业务，达到面向业务开发</b></p>
-				<p><b>项目使用 Maven 构建，便于项目管理，支持 Oracle、MySql 等主流数据库</b></p>
-				<p><b>前端展示界面采用基于 Boostrap 实现的响应式布局，并集成了一系列的动画效果插件，整体界面简洁、美观大方并可优雅的与后台完成交互操作</b></p>
-				<p><b>项目封装了一系列常用方法、部署运行简单，便于个人或企业进行高效开发</b></p>
-				<p><b>代码已托管至<a href="https://github.com/micyo202/yan-demo" target="_blank"> github</a>可下载进行查看</b></p>
-				<p>Created by Yanzheng Since 2017</p>
-				<p>Copyright <a href="https://github.com/micyo202" target="_blank">https://github.com/micyo202</a>. All rights reserved.</p>
+				
 			</div>
 		</div>
 	</section>

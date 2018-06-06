@@ -1,5 +1,5 @@
 <!--
- Copyright (c) 2017 Yanzheng [https://github.com/micyo202/yan-demo]
+ Copyright (c) 2017 Yanzheng [https://github.com/micyo202/FirstCooperate]
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -23,11 +23,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.yan</groupId>
-    <artifactId>yan-demo</artifactId>
+    <artifactId>FirstCooperate</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>yan-demo</name>
+    <name>FirstCooperate</name>
     <description>基于 SpringMVC+Spring+Mybaits（SSM）开发的 Yan Demo.</description>
 
     <properties>
@@ -263,7 +263,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
-            <version>1.1.6</version>
+            <version>1.1.8</version>
         </dependency>
 
         <!-- 添加 mysql 驱动 -->
@@ -273,7 +273,11 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.45</version>
         </dependency>
-
+		<dependency>
+		    <groupId>com.microsoft.sqlserver</groupId>
+		    <artifactId>sqljdbc4</artifactId>
+		    <version>4.0</version>
+		</dependency>
         <!-- 添加 jackson 依赖包 -->
         <!-- 包含 jackson-annotations-2.9.3.jar、 jackson-core-2.9.3.jar、
             jackson-databind-2.9.3.jar -->
@@ -368,7 +372,11 @@
             <version>4.1.19.Final</version>
             <scope>test</scope>
         </dependency>
-
+		<dependency>
+		    <groupId>com.microsoft.sqlserver</groupId>
+		    <artifactId>sqljdbc4</artifactId>
+		    <version>4.0</version>
+		</dependency>
     </dependencies>
 
     <build>
@@ -383,7 +391,7 @@
                     <!-- 指定监控的扫描时间间隔，0为关闭jetty自身的热部署 -->
                     <scanIntervalSeconds>0</scanIntervalSeconds>
                     <webAppConfig>
-                        <contextPath>/yan-demo</contextPath>
+                        <contextPath>/FirstCooperate</contextPath>
                     </webAppConfig>
                     <httpConnector>
                         <port>8888</port>

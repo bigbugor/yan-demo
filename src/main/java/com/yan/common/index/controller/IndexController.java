@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yan.common.index.model.MenuModel;
+import com.yan.common.login.model.LoginUser;
 import com.yan.core.annotation.LogInject;
 import com.yan.core.annotation.MapperInject;
 import com.yan.core.controller.BaseController;
@@ -101,12 +102,13 @@ public class IndexController extends BaseController {
 	@RequestMapping("/{roleId}/menu")
 	@ResponseBody
 	public List<MenuModel> menu(@PathVariable String roleId) {
-		if ("admin".equals(this.getSessionUser().getUserType())) {
+		LoginUser loginUser =this.getSessionUser();
+		if ("admin".equals(this.getSessionUser().getUserCode())) {
 			// 管理员菜单（在系统 xml 中配置）
-			return getMenuForXml();
+			return getMenuForXml("adminMenu.xml");
 		} else {
 			// 一般用户菜单 general（根据角色获取对应菜单列表）
-			Map<String, Object> paramMap = new HashMap<>();
+			/*Map<String, Object> paramMap = new HashMap<>();
 			paramMap.put("menuId", "00000000000000000000000000000001");
 			paramMap.put("roleId", roleId);
 			paramMap.put("userId", this.getSessionUser().getUserId());
@@ -116,8 +118,8 @@ public class IndexController extends BaseController {
 			for (MenuModel menuModel : rootList) {
 				menuModel.setChildren(getMenu(menuModel.getId(), roleId));
 				list.add(menuModel);
-			}
-			return list;
+			}*/
+			return getMenuForXml("userMenu.xml");
 		}
 	}
 
@@ -151,11 +153,11 @@ public class IndexController extends BaseController {
 	 * @return List<MenuModel> 菜单列表集合
 	 */
 	@SuppressWarnings("unchecked")
-	private List<MenuModel> getMenuForXml() {
+	private List<MenuModel> getMenuForXml(String xml) {
 		List<MenuModel> list = new ArrayList<>();
 		try {
 			// 获取需要读取的xml文件路径
-			InputStream inputStream = this.getClass().getResourceAsStream("/adminMenu.xml");
+			InputStream inputStream = this.getClass().getResourceAsStream("/"+xml);
 			// 创建SAXReader的对象reader
 			SAXReader reader = new SAXReader();
 			// 通过reader对象的read方法加载adminMenu.xml文件,获取docuemnt对象。

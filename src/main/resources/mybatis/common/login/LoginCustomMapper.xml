@@ -18,7 +18,7 @@
 	</resultMap>
 
 	<select id="getLoginUser" resultMap="loginUserMap" parameterType="java.util.HashMap">
-		SELECT * FROM SYS_USER WHERE USER_CODE LIKE BINARY #{userCode} AND USER_PASSWORD LIKE BINARY #{userPassword}
+		SELECT * FROM SYS_USER WHERE USER_CODE = #{userCode} AND USER_PASSWORD = #{userPassword}
 	</select>
 	
 	<select id="getUserRoles" resultType="java.util.Map" parameterType="java.lang.String">

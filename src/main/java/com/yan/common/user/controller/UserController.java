@@ -1,13 +1,16 @@
 package com.yan.common.user.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yan.common.user.mapper.SysUserMapper;
@@ -38,6 +41,8 @@ public class UserController extends BaseController {
 	@MapperInject(SysUserMapper.class)
 	private SysUserMapper mapper;
 
+	
+	  
 	@RequestMapping("/manage")
 	public String manage() {
 		return "common/user/manage";
@@ -45,10 +50,21 @@ public class UserController extends BaseController {
 
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
 	@ResponseBody
-	public PageModel<SysUser> list(int offset, int limit, String search, String sort, String order) {
-		this.offsetPage(offset, limit);
-		List<SysUser> list = mapper.selectByExample(null);
-		return this.resultPage(list);
+	public PageModel<HashMap<String,Object>> list(@RequestParam HashMap<String,Object> params) {
+		PageModel pageModel = new PageModel();
+		String offset =(String) params.get("offset");
+		String limit =(String) params.get("limit");
+		Integer iter =Integer.parseInt(offset);
+		Integer limitInt =Integer.parseInt(limit);
+		String end =(iter+limitInt)+"";
+		params.put("limit", end);
+		//查询列表
+		List<HashMap<String,Object>> listResult =mapper.queryUserList(params);
+		//统计查询
+	    Integer count=	mapper.queryUserCount( params);
+	    pageModel.setRows(listResult);
+	    pageModel.setTotal(count);
+	    return pageModel;
 	}
 
 	/**
