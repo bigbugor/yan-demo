@@ -3,9 +3,10 @@
  *@version 1.0
  */
 var table = $("#table");
-debugger;
 
-
+/**
+ * 加载供应商的字典表
+ */
 
 
 var urlPart="";//default value
@@ -28,8 +29,9 @@ Date.prototype.Format = function(fmt)
   return fmt;   
 }; 
 
-inputFileInput("idcard",getRootPath_web() + "/directBusClient/busDriver/uploadImage",2);
-inputFileInput("drivingLicence",getRootPath_web() + "/directBusClient/busDriver/uploadImage",1);
+/*inputFileInput("idcard",getRootPath_web() + "/directBusClient/busDriver/uploadImage",1);
+inputFileInput("idcard",getRootPath_web() + "/common/file/uploadImage",1);*/
+inputFileInput("drivingLicence",getRootPath_web() + "/common/file/uploadImage",1);
 
 $(function() {
 	
@@ -47,7 +49,7 @@ $(function() {
 	
 	//设置出票table的样式内容
 	table.bootstrapTable({
-		url: getRootPath_web() + '/directBusClient/busDriver/busDriverList',
+		url: getRootPath_web() + '/common/file/list',
 		method : 'post',
 		contentType : "application/x-www-form-urlencoded",//必须要有！！！！
 		toolbar: '#toolbar', //设置将toolbar集成到bootstrap-table中展示
@@ -70,24 +72,16 @@ $(function() {
 	    showRefresh: true,
 	    columns : [
 	  		{
-	  			field : 'DriverName',
-	  			title : '司机名称',
+	  			field : 'fileName',
+	  			title : '文件名称',
 	  			align : 'center'
 	  		},{
-	  			field : 'Sex',
-	  			title : '性别',
+	  			field : 'createName',
+	  			title : '上传者',
 	  			align : 'center'
 	  		}, {
-	  			field : 'SupplyCompanyName',
-	  			title : '所属供应商',
-	  			align : 'center'
-	  		}, {
-	  			field : 'CellPhone',
-	  			title : '联系电话',
-	  			align : 'center'
-	  		},{
-	  			field : 'Birthday',
-	  			title : '出生日期',
+	  			field : 'createTime',
+	  			title : '上传日期',
 	  			align : 'center',
 	  			formatter: function (value, row, index) {
 		 	           if (value == null) {
@@ -97,45 +91,13 @@ $(function() {
 		 	           return offlineTimeStr;
 		   			}
 	  		}, {
-	  			field : 'Idcard',
-	  			title : '身份证号',
-	  			align : 'center',
-	  			formatter: function(value, row, index) {
-	  				var htmlStr= value + "&nbsp;&nbsp;&nbsp;&nbsp;<a class='waves-effect btn btn-info btn-sm' href='javascript:showBigPicView(\""+row.IdcardPath+"\");'><i class='zmdi'></i>查看附件</a>";
-					return htmlStr;
-				}
-	  		}, {
-	  			field : 'DrivingLicence',
-	  			title : '驾驶证号',
-	  			align : 'center',
-	  			formatter: function(value, row, index) {
-	  				var htmlStr= value + "&nbsp;&nbsp;&nbsp;&nbsp;<a class='waves-effect btn btn-info btn-sm' href='javascript:showBigPicView(\""+row.DrivingLicencePath+"\");'><i class='zmdi'></i>查看附件</a>";
-					return htmlStr;
-				}
-	  		},{
-	  			field : 'SupportBusType',
-	  			title : '准驾车型',
-	  			align : 'center'
-	  		}, {
-	
-	  			field : 'DrivingAge',
-	  			title : '驾龄',
+	  			field : 'CellPhone',
+	  			title : '文件',
 	  			align : 'center'
 	  		},{
-	  			field : 'ShenPiState',
-	  			title : '用户状态',
-	  			align : 'center',
-	  			formatter: function(value, row, index) {
-	  				var htmlStr = "";
-	  				if(row.ShenPiState == 0){
-	  					htmlStr = "待审核";
-	  				}else if(row.ShenPiState == 1){
-	  					htmlStr="已审核";
-	  				}else if(row.ShenPiState == 2){
-	  					htmlStr="不通过";
-	  				}
-					return htmlStr;
-				}
+	  			field : '',
+	  			title : '文件描述',
+	  			align : 'center'
 	  		},{
 	  			field : 'Id',
 	  			title : '操作',
@@ -182,8 +144,8 @@ function inputFileInput(keyId, uploadUrl, fileNum) {
 	 $('#'+keyId+'File').fileinput({
 		 language: 'zh', //设置语言
 		 enctype: 'multipart/form-data',
-	     uploadUrl: getRootPath_web() + "/directBusClient/busDriver/uploadImage", //上传的地址
-	     allowedFileExtensions : ['jpg', 'png', 'gif', 'bmp','jpeg'],//接收的文件后缀
+	     uploadUrl: getRootPath_web() + "/common/file/uploadImage", //上传的地址
+	     allowedFileExtensions : ['jpg', 'png', 'gif', 'bmp','jpeg','txt','word','excel'],//接收的文件后缀
 	     showUpload: false, //是否显示上传按钮
 	     showPreview: true, //展前预览
 	     showCaption: true,//是否显示标题
@@ -446,7 +408,7 @@ $('#submitBtn').click(function() {
 	}
 	
 	$.ajax({
-	    url:getRootPath_web()+"/directBusClient/busDriver/insertOrUpdateBusDriverInfo",
+	    url:getRootPath_web()+"/common/file/insertFile",
 	    type:"post",
 	    data:formData,
 	    dataType:"json",
@@ -465,21 +427,16 @@ $('#submitBtn').click(function() {
 	    }
 	  });
 	
-	
-
-	
 });
-
 function getRootPath_web() {
-	//获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp
-	var curWwwPath = window.document.location.href;
-	//获取主机地址之后的目录，如： uimcardprj/share/meun.jsp
-	var pathName = window.document.location.pathname;
-	var pos = curWwwPath.indexOf(pathName);
-	//获取主机地址，如： http://localhost:8083
-	var localhostPaht = curWwwPath.substring(0, pos);
-	//获取带"/"的项目名，如：/uimcardprj
-	var projectName = pathName
-			.substring(0, pathName.substr(1).indexOf('/') + 1);
-	return (localhostPaht + projectName);
+    //获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp
+    var curWwwPath = window.document.location.href;
+    //获取主机地址之后的目录，如： uimcardprj/share/meun.jsp
+    var pathName = window.document.location.pathname;
+    var pos = curWwwPath.indexOf(pathName);
+    //获取主机地址，如： http://localhost:8083
+    var localhostPaht = curWwwPath.substring(0, pos);
+    //获取带"/"的项目名，如：/uimcardprj
+    var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+    return (localhostPaht + projectName);
 }

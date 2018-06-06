@@ -62,12 +62,12 @@ public abstract class BaseController extends ControllerSupport {
 	 * 用户请求 request 对象<br>
 	 */
 	@Autowired
-	private HttpServletRequest request;
+	protected HttpServletRequest request;
 	/**
 	 * 服务器响应结果 response 对象<br>
 	 */
 	@Autowired
-	private HttpServletResponse response;
+	protected HttpServletResponse response;
 
 	/**
 	 * 获取服务器会话 session 对象<br>

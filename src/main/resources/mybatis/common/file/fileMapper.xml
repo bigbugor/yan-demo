@@ -2,38 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yan.common.file.mapper.FileMapper">
  
-   <select id="queryUserList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+   <select id="queryFileList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 	    select
 	    <if test="distinct">
 	      distinct
 	    </if>
-	   USER_ID as userId,
-	   USER_CODE as userCode, 
-	   USER_NAME as userName,
-	   USER_PASSWORD as userPassword,
-	   USER_ADDRESS as userAddress, 
-	   USER_EMAIL as userEmil,
-	   USER_PHONE as userPhone, 
-	   USER_BIRTHDAY as userBirthDay, 
-	   USER_JOINDATE as userJoinDate, 
-	   USER_PHOTO  as userPhoto,
-	   USER_TYPE as userType, 
-	   USER_VALID as userValid,
-	   companyInfoId as companyInfoId
+	   *
 		 FROM (SELECT ROW_NUMBER()
-		 OVER(ORDER BY USER_ID ASC) AS rowid,* FROM
-			     SYS_USER
+		 OVER(ORDER BY createTime desc) AS rowid,* FROM
+			     fileTab
 			     where
+			     1=1
 			      <if test="companyInfoId != null">
 			        companyInfoId = #{companyInfoId,jdbcType=BIT}
 			      </if>
 		)t WHERE t.rowid &gt;  ${offset} AND t.rowid  &lt;= ${limit}
 	  </select>
-	  <select id="queryUserCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+	  <select id="queryFileCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
 	    select
 	    count(1)
-	    from SYS_USER
+	    from fileTab
 	   where
+	   1=1
 			      <if test="companyInfoId != null">
 			        companyInfoId = #{companyInfoId,jdbcType=BIT}
 			      </if>
@@ -63,4 +53,14 @@
 	  </select>
 	 
 <!-- 新配置结束 --> 
+<!-- 文件新增 -->
+	<insert id="insertFile">
+		  insert into fileTab (id, filePath, createTime,  
+	      createName
+	      )
+	    values (#{id}, #{DrivingLicencePath}, getdate(), 
+	      #{userName}   )
+	
+	</insert>
+
 </mapper>

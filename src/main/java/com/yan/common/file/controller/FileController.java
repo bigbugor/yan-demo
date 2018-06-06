@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.yan.common.file.mapper.FileMapper;
+import com.yan.common.login.model.LoginUser;
 import com.yan.common.user.mapper.SysUserMapper;
+import com.yan.common.util.UUIDHexGenerator;
 import com.yan.core.annotation.MapperInject;
 import com.yan.core.controller.BaseController;
 import com.yan.core.model.MsgModel;
@@ -91,6 +94,28 @@ public class FileController extends BaseController {
         } else{
         	return this.resultMsg("-1", "上传失败！");
         }
+	}
+	
+	/**
+	 * @方法描述: 保存司机信息
+	 * @作者： 易涛  
+	 * @时间： 2018年5月21日上午11:59:43  
+	 * @参数 @param params
+	 * @参数 @return  
+	 * @返回类型： MsgModel
+	 */
+	@RequestMapping(value = "/insertFile", method = RequestMethod.POST)
+	@ResponseBody
+	public MsgModel insertFile(@RequestParam HashMap<String,Object> params) {
+		LoginUser loginUser = this.getSessionUser();
+		params.put("userName", loginUser.getUserName());
+		params.put("id", UUIDHexGenerator.generator());
+		Integer rows  = mapper.insertFile(params);
+		if(rows >0){
+			return this.resultMsg("0", "文件入库成功！", rows);
+		}else{
+			return this.resultMsg("-1", "文件入库失败！");
+		}
 	}
 
 }

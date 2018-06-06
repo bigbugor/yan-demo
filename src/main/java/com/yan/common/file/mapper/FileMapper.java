@@ -9,4 +9,6 @@ public interface FileMapper {
 
 	Integer queryFileCount(HashMap<String, Object> params);
 
+	Integer insertFile(HashMap<String, Object> params);
+
 }

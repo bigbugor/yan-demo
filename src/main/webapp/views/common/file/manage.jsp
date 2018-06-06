@@ -20,7 +20,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="author" content="hyh">
-		<title>司机信息管理</title>
+		<title>文件信息管理</title>
 		<script src="${pageContext.request.contextPath}/resources/plugins/bootstrap-fileinput/js/locales/LANG.js"></script>
 	</head>
 
@@ -45,13 +45,10 @@
 			<div class="navbar-form navbar-left" role="search">
 				<button id="search" type="button" class="btn btn-primary">搜索</button>
 			</div>
-			<div class="navbar-form navbar-left" role="search">
-				<button id="search" type="button" class="btn btn-sucess">新增</button>
-			</div>
-			<!-- <div class="navbar-form navbar-left" role="search">
-				<button id="reset" type="button" class="btn btn-dark">重置</button>
-			</div> -->
 			
+			<div class="navbar-form navbar-left" role="search">
+				<button id="addInfoBtn" type="button" onclick="addInfo();" class="btn btn-success">新增</button>
+			</div>
 		</form>
 		<table id="table"></table>
 
@@ -66,78 +63,22 @@
 				</div>
 			</div>
 		</div>
-		<!-- 添加司机信息-->
+		<!-- 添加文件-->
 		<div id="addDriverInfo" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalLabel" >
 			<!-- <div class="modal-dialog"> -->
 			<div class="modal-dialog" role="document" style="width: 800px;"> 
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h4 id="downLineReasonModalTitle" class="modal-title">添加司机信息</h4>
+						<h4 id="downLineReasonModalTitle" class="modal-title">添加文件信息</h4>
 					</div>
 					<div class="modal-body" style="height:600px;overflow:auto; ">
 						<form class="form-horizontal">				
 							<input type="hidden" class="form-control" id="keyId" name="keyId"></input>
-							<div class="form-group">
-								<label class="col-sm-2 control-label" for="driverNameAdd">司机姓名<span class="text-danger">&nbsp;*</span></label>
-								<div class="col-sm-4">
-									<input type="text" id="driverNameAdd" name="driverName" class="form-control" placeholder="请输入姓名"></input>
-								</div>
-								<label class="col-sm-2 control-label" for="sex">性别</label>
-								<div class="col-sm-4">
-									<select id="sex" name="sex" class="form-control">
-										<option value="男">男</option>
-										<option value="女">女</option>
-									</select>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-2 control-label" for="cellPhone">联系电话<span class="text-danger">&nbsp;*</span></label></label>
-								<div class="col-sm-4">
-									<input type="text" name="cellPhone" class="form-control" id="cellPhone" placeholder="请输入您的电话号码"></input>
-								</div>
-								<label class="col-sm-2 control-label" for="birthday">司机出生日期<span class="text-danger">&nbsp;*</span></label></label>
-								<div class="col-sm-4">
-									<input size="16" id="birthday" name="birthday" type="text" value="" readonly class="form_datetime form-control" placeholder="请选择出生日期">
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-2 control-label" for="idcard">身份证号<span class="text-danger">&nbsp;*</span></label>
-								<div class="col-sm-4">
-									<input type="text" class="form-control" id="idcard" name="idcard" placeholder="请输入司机的身份证号"></input>
-								</div>
-								<label class="col-sm-2 control-label" for="drivingLicence">驾驶证编号<span class="text-danger">&nbsp;*</span></label>
-								<div class="col-sm-4">
-									<input type="text" class="form-control" id="drivingLicence" name="drivingLicence" placeholder="请输入司机的驾驶证编号"></input>
-								</div>
-							</div>
-
-							<div  class="form-group">
-								<label class="col-sm-2 control-label" for="drivingAge">司机驾龄<span class="text-danger">&nbsp;*</span></label>
-								<div class="col-sm-4">
-									<input type="text" class="form-control" id="drivingAge" name="drivingAge" placeholder="请输入司机的驾龄"></input>
-								</div>
-								<label class="col-sm-2 control-label" for="supportBusType">准驾车型<span class="text-danger">&nbsp;*</span></label>
-								<div class="col-sm-4">
-									<select id="supportBusType" name="supportBusType" class="form-control">
-										<option value="大型客车">大型客车</option>
-										<option value="中型客车">中型客车</option>
-										<option value="小型客车">小型客车</option>
-									</select>
-								</div>
-							</div>
+							
 							
 							<div class="form-group">
-								<label class="col-sm-2 control-label" for="idcardFile">请上传身份证<span class="text-danger">&nbsp;*</span></label>
-								<div class="col-sm-10">
-									<input id="idcardFile" name="file" type="file" class="file" multiple data-show-upload="false" data-show-caption="false" data-msg-placeholder="选择上传文件...">
-								</div>
-								<input type="hidden" class="form-control" id="idcardPrewId" name="idcardPrewId"></input>
-								<input type="hidden" class="form-control" id="idcardPath" name="idcardPath" placeholder="请上传司机的身份证照片"></input>
-							</div>
-							
-							<div class="form-group">
-								<label class="col-sm-2 control-label" for="drivingLicenceFile">请上传驾驶证<span class="text-danger">&nbsp;*</span></label>
+								<label class="col-sm-2 control-label" for="drivingLicenceFile">请上传文件<span class="text-danger">&nbsp;*</span></label>
 								<input type="hidden" class="form-control" id="drivingLicencePath" name="drivingLicencePath" placeholder="请上传司机的身份证照片"></input>
 								<input type="hidden" class="form-control" id="drivingLicencePrewId" name="drivingLicencePrewId"></input>
 								<div class="col-sm-10">
@@ -153,6 +94,7 @@
 				</div>
 			</div>
 		</div>
+		
 		<!-- 不通过原因查看modal  -->
 		<div id="reasonLook" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
 			<div class="modal-dialog" >
@@ -199,7 +141,7 @@
 			</div>
 		</div>
 		
-		<script src="${pageContext.request.contextPath}/resources/js/file/filetab.js">
+		<script src="${pageContext.request.contextPath}/resources/js/file/manage.js">
 		
 		
 		</script>
