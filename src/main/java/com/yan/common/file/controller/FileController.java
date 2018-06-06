@@ -1,10 +1,15 @@
 package com.yan.common.file.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -76,9 +81,9 @@ public class FileController extends BaseController {
 		//公司的Id
         if(!file.isEmpty()) {
         	//根据sessionid 设置上传路径，退出之后普通用户无法 看到上传过的文件
-        	String showPath = request.getContextPath()+"/images/"+this.getSession().getId()+"/"; 
+        	String showPath = "images/"+this.getSession().getId()+"/"; 
             //上传文件路径
-            String realPath = request.getServletContext().getRealPath("/images/"+this.getSession().getId()+"/");
+            String realPath = "images/"+this.getSession().getId()+"/";
             File dirFile = new File(realPath);
             //如果目录不存在，就创建目录
             if(!dirFile.exists()){
@@ -115,6 +120,42 @@ public class FileController extends BaseController {
 			return this.resultMsg("0", "文件入库成功！", rows);
 		}else{
 			return this.resultMsg("-1", "文件入库失败！");
+		}
+	}
+	
+	
+
+	
+	/**
+	 * 将获取的数据导出到excel中
+	 * 
+	 * @param params
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/dowland", method = RequestMethod.GET)
+	@ResponseBody
+	public void dowland(@RequestParam HashMap<String, Object> params, HttpServletResponse response)
+			throws Exception {
+		try {
+			String filePath =(String) params.get("filePath");
+			String arg[]=filePath.split(",");
+			 InputStream is = new FileInputStream(filePath);
+			response.setContentType("application/x-download");// 下面三行是关键代码，处理乱码问题
+			response.setCharacterEncoding("utf-8");
+			response.setHeader("Content-Disposition",
+					"attachment;filename=" + new String(arg[arg.length-1].getBytes("gbk"), "iso8859-1"));
+			OutputStream out = response.getOutputStream();
+			int data;
+			while(is.available() > 0)
+			 {
+			 data = is.read();
+			 out.write(data);
+			 }
+			 is.close();
+			 out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 

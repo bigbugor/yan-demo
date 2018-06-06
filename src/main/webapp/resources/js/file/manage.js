@@ -103,10 +103,11 @@ $(function() {
 	  			title : '操作',
 	  			align : 'center',
 	  			formatter: function(value, row, index) {
+	  				debugger;
 	  				var htmlStr="<a class='waves-effect btn btn-danger btn-sm'href='javascript:update("+index+");'><i class='zmdi'></i>修改</a>&nbsp;&nbsp;";
-	  				if(row.ShenPiState == 2){
-	  					htmlStr+="<a class='waves-effect btn btn-info btn-sm'href='javascript:showReason("+index+");'><i class='zmdi'></i>查看原因</a>&nbsp;&nbsp;";
-	  				}
+	  				
+	  				htmlStr+="<a class='waves-effect btn btn-info btn-sm'href='javascript:showReason(\""+row.filePath+"\");'><i class='zmdi'></i>下载</a>&nbsp;&nbsp;";
+	  				
 					return htmlStr;
 				},
 	  			visible:true
@@ -275,11 +276,14 @@ function update(index){
 	
 }
 
-//查看不同意原因
-function showReason(index) {
-	var currentrow = table.bootstrapTable('getData', {useCurrentPage:true})[index];
+//下载
+function showReason(id) {
+	debugger;
+	window.location.href= getRootPath_web()+"/common/file/dowland?filePath="+id;
+	//exportExcel
+	/*var currentrow = table.bootstrapTable('getData', {useCurrentPage:true})[index];
 	$("#reasonLook").modal('show');
-	$("#suggestLook").val(currentrow.Suggest);
+	$("#suggestLook").val(currentrow.Suggest);*/
 }
 
 //重置搜索条件
