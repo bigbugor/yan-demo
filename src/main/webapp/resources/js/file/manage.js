@@ -87,8 +87,8 @@ $(function() {
 		 	           if (value == null) {
 		 	               return "";
 		 	           }
-		 	           var offlineTimeStr = new Date(value).Format("yyyy-MM-dd");
-		 	           return offlineTimeStr;
+		 	          var offlineTimeStr = new Date(value).Format("yyyy-MM-dd hh:mm:ss");
+			           return offlineTimeStr;
 		   			}
 	  		}, {
 	  			field : 'CellPhone',
@@ -146,7 +146,7 @@ function inputFileInput(keyId, uploadUrl, fileNum) {
 		 language: 'zh', //设置语言
 		 enctype: 'multipart/form-data',
 	     uploadUrl: getRootPath_web() + "/common/file/uploadImage", //上传的地址
-	     allowedFileExtensions : ['jpg', 'png', 'gif', 'bmp','jpeg','txt','word','excel'],//接收的文件后缀
+	     allowedFileExtensions : ['jpg', 'png', 'gif', 'bmp','jpeg','txt','docx','excel'],//接收的文件后缀
 	     showUpload: false, //是否显示上传按钮
 	     showPreview: true, //展前预览
 	     showCaption: true,//是否显示标题
@@ -393,7 +393,7 @@ $('#submitBtn').click(function() {
 		return;
 	}
 	if(drivingLicencePath == "") {
-		alert("请上传驾驶证图片");
+		alert("请上传文件");
 		return;
 	}
 	
